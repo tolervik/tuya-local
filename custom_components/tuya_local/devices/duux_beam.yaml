@@ -1,0 +1,101 @@
+name: Humidifier
+products:
+  - id: wksnqcoh6yzpoam9
+    manufacturer: Duux
+    model: Beam
+entities:
+  - entity: humidifier
+    class: humidifier
+    dps:
+      - id: 1
+        name: switch
+        type: boolean
+        mapping:
+          - dps_val: true
+            icon: "mdi:air-humidifier"
+          - dps_val: false
+            icon: "mdi:air-humidifier-off"
+      - id: 15
+        name: humidity
+        type: integer
+        unit: "%"
+        range:
+          min: 40
+          max: 90
+        mapping:
+          - step: 1
+            constraint: mode
+            conditions:
+              - dps_val: auto
+                invalid: true
+      - id: 16
+        name: current_humidity
+        type: integer
+  - entity: fan
+    dps:
+      - id: 10
+        name: switch
+        type: boolean
+        mapping:
+          - dps_val: true
+            icon: "mdi:fan"
+          - dps_val: false
+            icon: "mdi:fan-off"
+  - entity: sensor
+    class: temperature
+    dps:
+      - id: 14
+        name: temp_current
+        type: integer
+        class: measurement
+        unit: "°C"
+        range:
+          min: 0
+          max: 50
+  - entity: light
+    category: config
+    dps:
+      - id: 5
+        type: boolean
+        name: switch
+        mapping:
+          - dps_val: true
+            icon: "mdi:led-on"
+          - dps_val: false
+            icon: "mdi:led-off"
+      - id: 2
+        type: string
+        name: spray
+        mapping:
+          - dps_val: "small"
+            value: "small"
+          - dps_val: "middle"
+            value: "middle"
+          - dps_val: "large"
+            value: "large"
+      - id: 12
+        type: string
+        name: mode
+        mapping:
+          - dps_val: "general"
+            value: "general"
+          - dps_val: "auto"
+            value: "auto"
+  - entity: binary_sensor
+    translation_key: tank_empty
+    category: diagnostic
+    dps:
+      - id: 9
+        type: bitfield
+        name: sensor
+        mapping:
+          - dps_val: 1
+            value: true
+          - value: false
+  - entity: binary_sensor
+    class: problem
+    category: diagnostic
+    dps:
+      - id: 9
+        type: bitfield
+        name: fault_code
